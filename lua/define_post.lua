@@ -1,10 +1,9 @@
-vim.g.loaded_netrw = 1
-vim.g.loaded_netrwPlugin = 1
 vim.opt.termguicolors = true
 -- Set highlight on search
 vim.o.hlsearch = false
 -- Make line numbers default
 vim.wo.number = true
+vim.wo.relativenumber = true
 -- Enable mouse mode
 vim.o.mouse = 'a'
 -- Sync clipboard between OS and Neovim.
@@ -29,7 +28,6 @@ vim.opt.shiftwidth = 2
 vim.opt.expandtab = true
 vim.opt.undodir = vim.fn.expand('~/.vim/undodir')
 vim.opt.undofile = true
-vim.wo.relativenumber = true
 vim.opt.spell = true
 
 vim.o.shortmess = vim.o.shortmess .. 'A'

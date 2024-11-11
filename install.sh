@@ -4,9 +4,9 @@ echo '    /   |  ____  ____  / | / / |  / /'
 echo '   / /| | / __ \/ __ \/  |/ /| | / / '
 echo '  / ___ |/ / / / /_/ / /|  / | |/ /  '
 echo ' /_/  |_/_/ /_/\____/_/ |_/  |___/   '
-ANV_SRC="https://github.com/Anonoei/anonv"
+ANONV_SRC="https://github.com/Anonoei/anonv"
 
-ANV_ROOT="${HOME}/.config/nvim/lua/anonv"
+ANONV_ROOT="${HOME}/.config/nvim/lua/anonv"
 
 if [[ "$1" == "-l" || "$1" == "--local" ]]; then
     ANV_SRC="$2"
@@ -49,5 +49,8 @@ fi
 
 echo "require('anonv')" > "${HOME}/.config/nvim/init.lua"
 
-source "${HOME}/.config/nvim/lua/anonv/utils.sh"
-anv_install_deps
+anonv_reqs=(telescope ripgrep fd jsregexp)
+echo "Please install:"
+for req in ${anonv_reqs[@]}; do
+    echo "  $req"
+done
