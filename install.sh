@@ -49,8 +49,4 @@ fi
 
 echo "require('anonv')" > "${HOME}/.config/nvim/init.lua"
 
-anonv_reqs=(telescope ripgrep fd jsregexp)
-echo "Please install:"
-for req in ${anonv_reqs[@]}; do
-    echo "  $req"
-done
+echo "Please install dependencies, or neovim will throw errors"
