@@ -29,9 +29,9 @@ function _extra_anonv_uninstall {
 function _extra_anonv_update {
     old_path=$PWD
     cd ${HOME}/.config/nvim/lua/anonv
-    git reset --hard origin
-    git pull origin main --force
-    git pull origin main
+    if [[ -z $(git fetch --dry-run) ]]; then
+        git pull origin main
+    fi
 
     cd $old_path
 }
