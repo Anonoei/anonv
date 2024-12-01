@@ -9,34 +9,34 @@ ANONV_SRC="https://github.com/Anonoei/anonv"
 ANONV_ROOT="${HOME}/.config/nvim/lua/anonv"
 
 if [[ "$1" == "-l" || "$1" == "--local" ]]; then
-    ANV_SRC="$2"
-    if [[ "$ANV_SRC" == "." ]]; then
-        ANV_SRC="$PWD"
+    ANONV_SRC="$2"
+    if [[ "$ANONV_SRC" == "." ]]; then
+        ANONV_SRC="$PWD"
     fi
-    foldername=${ANV_SRC##*/}
+    foldername=${ANONV_SRC##*/}
     foldername=${foldername:-/}
     if [[ ! $foldername == "anonv" ]]; then
         echo "Please install from anonv source, not $foldername"
         exit
     fi
-    if [ ! -d "$ANV_SRC" ]; then
-        echo "Unable to install from local directory $ANV_SRC"
+    if [ ! -d "$ANONV_SRC" ]; then
+        echo "Unable to install from local directory $ANONV_SRC"
         exit
     fi
 fi
 
-if [ ! -d $ANV_ROOT ]; then
-    mkdir -p $ANV_ROOT
+if [ ! -d $ANONV_ROOT ]; then
+    mkdir -p $ANONV_ROOT
 fi
 
 echo "Cloning AnoNV..."
-if [[ -d "${ANV_ROOT}" ]]; then
-    rm -rf "${ANV_ROOT}"
+if [[ -d "${ANONV_ROOT}" ]]; then
+    rm -rf "${ANONV_ROOT}"
 fi
-if [[ $ANV_SRC == /* ]]; then
-    cp -R "${ANV_SRC}" "${ANV_ROOT}"
+if [[ $ANONV_SRC == /* ]]; then
+    cp -R "${ANONV_SRC}" "${ANONV_ROOT}"
 else
-    git clone $ANV_SRC "${ANV_ROOT}"
+    git clone $ANONV_SRC "${ANONV_ROOT}"
 fi
 
 echo "Writing nvim/init.lua"

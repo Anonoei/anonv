@@ -1,0 +1,62 @@
+#!/bin/bash
+
+function _extra_anonv_help {
+    echo "Usage:  anonoei/anonv COMMAND"
+    echo ""
+    echo "Helper for AnoNV"
+    echo ""
+    echo "Commands:"
+    local ash_arg=(
+        "h|help;show_this_message"
+        "i|install;install_AnoNV"
+        "U|uninstall;uninstall_AnoNV"
+        "u|update;update_AnoNV"
+        )
+    _ash_fmt_help_items "${ash_arg[@]}"
+    echo ""
+}
+
+function _extra_anonv_install {
+    $SHELL <(curl -sS https://raw.githubusercontent.com/anonoei/anonv/main/install.sh) $*
+}
+
+function _extra_anonv_uninstall {
+    echo "Uninstalling..."
+    rm -rf "${HOME}/.config/nvim/lua/anonv"
+    echo "AnoNV has been uninstalled!"
+}
+
+function _extra_anonv_update {
+    old_path=$PWD
+    cd ${HOME}/.config/nvim/lua/anonv
+    git reset --hard origin
+    git pull origin main --force
+    git pull origin main
+
+    cd $old_path
+}
+
+if [[ $# -eq 0 ]]; then
+    _extra_anonv_help
+    return
+fi
+
+ASH_CMD=$1
+shift
+case $ASH_CMD in
+    h|help)
+        _extra_anonv_help $*
+        ;;
+    i|install)
+        _extra_anonv_install $*
+        ;;
+    U|uninstall)
+        _extra_anonv_uninstall $*
+        ;;
+    u|update)
+        _extra_anonv_update $*
+        ;;
+    *)
+        _ash_fmt_help_unk "anonv" $ASH_CMD $*
+        ;;
+esac
