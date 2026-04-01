@@ -1,8 +1,8 @@
 # anonv
  My [neovim](https://github.com/neovim/neovim) configuration
 
-
- - Install: `$SHELL <(curl -sS https://raw.githubusercontent.com/anonoei/anonv/main/install.sh)`
+## Install
+1. Run `$SHELL <(curl -sS https://raw.githubusercontent.com/anonoei/anonv/main/install.sh)`
 
 ## Dependencies:
  - tar

@@ -36,6 +36,22 @@ function _extra_anonv_update {
     cd $old_path
 }
 
+function _extra_anonv_deps {
+    if [[ -z "$ASH_ROOT" ]]; then
+        source ${HOME}/.local/ash/a.sh
+    fi
+    case $ASH_PKGMAN in
+        pacman)
+            ash extra pkg install tar curl git nodejs tree-sitter tree-sitter-cli lazygit ripgrep fd luarocks
+            sudo luarocks install jsregexp
+            ;;
+        *)
+            echo "Unsupported package manager: $ASH_PKGMAN"
+            exit 1
+            ;;
+    esac
+}
+
 if [[ $# -eq 0 ]]; then
     _extra_anonv_help
     return
@@ -55,6 +71,9 @@ case $ASH_CMD in
         ;;
     u|update)
         _extra_anonv_update $*
+        ;;
+    d|deps)
+        _extra_anonv_deps
         ;;
     *)
         _ash_fmt_help_unk "anonv" $ASH_CMD $*

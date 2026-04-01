@@ -1,52 +1,71 @@
-#!/bin/bash
-echo '     ___                _   ___    __'
-echo '    /   |  ____  ____  / | / / |  / /'
-echo '   / /| | / __ \/ __ \/  |/ /| | / / '
-echo '  / ___ |/ / / / /_/ / /|  / | |/ /  '
-echo ' /_/  |_/_/ /_/\____/_/ |_/  |___/   '
-ANONV_SRC="https://github.com/Anonoei/anonv"
+# AnoNV installer
+# (C) Anonoei, Licenced under the MIT license
 
-ANONV_ROOT="${HOME}/.config/nvim/lua/anonv"
+AINST_SRC="https://github.com/Anonoei/anonv"
+AINST_ROOT="${HOME}/.config/nvim/lua/anonv"
+# ---------------------- #
 
-if [[ "$1" == "-l" || "$1" == "--local" ]]; then
-    ANONV_SRC="$2"
-    if [[ "$ANONV_SRC" == "." ]]; then
-        ANONV_SRC="$PWD"
+function _show_help {
+    echo "AnoNV installer"
+    echo ""
+    echo "Arguments:"
+    echo "  -h|--help..................show this message"
+}
+
+function _parse_args {
+    if [[ $# -eq 0 ]]; then
+        return
     fi
-    foldername=${ANONV_SRC##*/}
-    foldername=${foldername:-/}
-    if [[ ! $foldername == "anonv" ]]; then
-        echo "Please install from anonv source, not $foldername"
-        exit
+    AINST_ARG=$1
+    shift
+    case $AINST_ARG in
+        -h|--help)
+            _show_help
+            exit 0
+            ;;
+        *)
+            echo "Unknown argument! $AINST_ARG"
+            exit 1
+            ;;
+    esac
+    _parse_args $*
+}
+
+function anonv_pre {
+    [[ -d "${AINST_ROOT}.bak" ]] && rm -rf "${AINST_ROOT}.bak"
+    [[ -d "${AINST_ROOT}" ]] && mv "${AINST_ROOT}" "${AINST_ROOT}.bak"
+    [[ -d "${AINST_ROOT}" ]] && rm -rf "${AINST_ROOT}"
+    mkdir -p "${AINST_ROOT}" && rm -rf "${AINST_ROOT}"
+}
+function anonv_post {
+    echo "Writing nvim/init.lua"
+    if [ -f "${HOME}/.config/nvim/init.vim" ]; then
+        mv "${HOME}/.config/nvim/init.vim" "${HOME}/.config/nvim/init.vim-bak"
     fi
-    if [ ! -d "$ANONV_SRC" ]; then
-        echo "Unable to install from local directory $ANONV_SRC"
-        exit
+    if [ -f "${HOME}/.config/nvim/init.lua" ]; then
+        mv "${HOME}/.config/nvim/init.lua" "${HOME}/.config/nvim/init.lua-bak"
     fi
-fi
 
-if [ ! -d $ANONV_ROOT ]; then
-    mkdir -p $ANONV_ROOT
-fi
+    echo "require('anonv')" > "${HOME}/.config/nvim/init.lua"
 
-echo "Cloning AnoNV..."
-if [[ -d "${ANONV_ROOT}" ]]; then
-    rm -rf "${ANONV_ROOT}"
-fi
-if [[ $ANONV_SRC == /* ]]; then
-    cp -R "${ANONV_SRC}" "${ANONV_ROOT}"
-else
-    git clone $ANONV_SRC "${ANONV_ROOT}"
-fi
+    echo "Please install dependencies, or neovim will throw errors"
+}
 
-echo "Writing nvim/init.lua"
-if [ -f "${HOME}/.config/nvim/init.vim" ]; then
-    mv "${HOME}/.config/nvim/init.vim" "${HOME}/.config/nvim/init.vim-bak"
-fi
-if [ -f "${HOME}/.config/nvim/init.lua" ]; then
-    mv "${HOME}/.config/nvim/init.lua" "${HOME}/.config/nvim/init.lua-bak"
-fi
+if [ "${BASH_SOURCE[0]}" -ef "$0" ]
+then
+    _parse_args $*
+    echo '     ___                _   ___    __'
+    echo '    /   |  ____  ____  / | / / |  / /'
+    echo '   / /| | / __ \/ __ \/  |/ /| | / / '
+    echo '  / ___ |/ / / / /_/ / /|  / | |/ /  '
+    echo ' /_/  |_/_/ /_/\____/_/ |_/  |___/   '
+    if ! command -v git &> /dev/null; then
+        echo "Missing required package: git"
+        exit 10
+    fi
 
-echo "require('anonv')" > "${HOME}/.config/nvim/init.lua"
-
-echo "Please install dependencies, or neovim will throw errors"
+    anonv_pre
+    echo "Cloning AnoNV..."
+    git clone $AINST_SRC "${AINST_ROOT}"
+    anonv_post
+fi
