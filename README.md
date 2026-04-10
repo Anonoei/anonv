@@ -17,3 +17,12 @@
  - [fd](https://github.com/sharkdp/fd)
  - [luarocks](https://github.com/luarocks/luarocks)
    - [jsregexp](https://github.com/kmarius/jsregexp)
+ - [ast-grep](https://ast-grep.github.io)
+ - snacks
+   - Render LaTeX: `tectonic` or `pdflatex`
+   - Render mermaid: `mmdc`
+
+## Check
+- in nvim, run
+  - `:LazyHealth`
+  - `:checkhealth vim.lsp`

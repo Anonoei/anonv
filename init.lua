@@ -21,10 +21,11 @@ require("lazy").setup({
     lazy = false,
     version = false,
   },
-  checker = {
-    enabled = true,
-    notify = false
+  checker = { -- automatically check for plugin updates
+    enabled = true, -- check for plugin updates periodically
+    notify = false, -- notify on update
   },
+  install = { colorscheme = { "tokyonight", "habamax" } },
   performance = {
     rtp = {
       disabled_plugins = {
@@ -53,11 +54,7 @@ require('telescope').setup {
 -- Enable telescope fzf native, if installed
 pcall(require('telescope').load_extension, 'fzf')
 -- File browser plugin for telescope
---require("telescope").load_extension("file_browser")
-
--- nvim-cmp supports additional completion capabilities, so broadcast that to servers
-local capabilities = vim.lsp.protocol.make_client_capabilities()
-capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
+-- require("telescope").load_extension("file_browser")
 
 require('anonv/lua/keymaps_post')
 require('anonv/lua/define_post')

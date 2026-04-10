@@ -4,7 +4,7 @@ return {
     dependencies = {
       -- Automatically install LSPs to stdpath
       {
-        "williamboman/mason.nvim",
+        "mason-org/mason.nvim",
         opts = {
           ui = {
             icons = {
@@ -19,7 +19,7 @@ return {
         },
       },
       {
-        "williamboman/mason-lspconfig.nvim",
+        "mason-org/mason-lspconfig.nvim",
         opts = {
           ensure_installed = {
             --"bashls",        -- Bash
@@ -46,6 +46,7 @@ return {
       },
       -- Status updates for LSP
       { "j-hui/fidget.nvim", tag = "legacy", opts = {} },
+      { "nvim-cmp" }
     },
     opts = {},
   },
